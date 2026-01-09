@@ -9,4 +9,5 @@
 | [0184-department-highest-salary](https://github.com/sally7788/CodingTest/tree/master/0184-department-highest-salary) |
 | [0185-department-top-three-salaries](https://github.com/sally7788/CodingTest/tree/master/0185-department-top-three-salaries) |
 | [0550-game-play-analysis-iv](https://github.com/sally7788/CodingTest/tree/master/0550-game-play-analysis-iv) |
+| [0619-biggest-single-number](https://github.com/sally7788/CodingTest/tree/master/0619-biggest-single-number) |
 <!---LeetCode Topics End-->
