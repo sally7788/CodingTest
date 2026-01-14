@@ -22,7 +22,8 @@ def solution(fees, records):
         time[num].append(cal_t)
     
     final=[]
-    for k,v in time.items():
+    for k in sorted(time.keys()):
+        v=time[k]
         length=len(v)
         if length % 2 == 0:
             key_time=sum(v[1+i]-v[i] for i in range(0,length,2))
@@ -32,9 +33,8 @@ def solution(fees, records):
         if key_time > fees[0]:
             money=fees[1]+math.ceil((key_time-fees[0])/fees[2])*fees[3]
         else: money=fees[1]
-        final.append([k,money])
-    s_final=sorted(final, key=lambda x:x[0])
-    for num,money in s_final:
-        answer.append(money)
-    return answer
+        final.append(money)
+    
+    
+    return final
 
