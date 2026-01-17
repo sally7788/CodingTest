@@ -1,26 +1,23 @@
 def solution(lines):
-    answer = 0
-    '''
-    누적합으로 해야될듯 
-    '''
-    times=[]
+    traffic=[]
     for l in lines:
-        time=l.split(' ')[1]
-        
-        end=(int(time.split(":")[0])*3600000 + int(time.split(":")[1])*60000
-        + int(time.split(":")[2].split('.')[0])*1000 + int(time.split(":")[2].split('.')[1]))
-        start=end-int(float(l.split(' ')[2][:-1])*1000)+1
-        
-        times.append((start,end))
-        
-    for start, end in times:
-        for check in [start,end]:
+        _, time, duration= l.split(' ')
+        h,m,s=time.split(":")
+        end=(int(h)*3600000 + int(m)*60000
+        +int(s.split(".")[0])*1000 + int(s.split(".")[1]))
+        start=end-int(float(duration[:-1])*1000)+1
+        traffic.append((start, end))
+    answer=0
+    for start,end in traffic:
+        for check in [start, end]:
             count=0
             window_start=check
             window_end=check+999
             
-            for s,e in times:
-                if not (s > window_end or e<window_start):
+            for s,e in traffic:
+                if not (s > window_end or e < window_start):
                     count+=1
-            answer=max(answer,count)
+            
+            answer=max(count,answer)
     return answer
+        
