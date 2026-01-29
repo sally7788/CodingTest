@@ -1,27 +1,12 @@
-import math
 import sys
 input=sys.stdin.readline
-n= int(input())
+n=int(input())
 m=int(input())
 place=list(map(int,input().split()))
 
-side=[place[i+1]-place[i] for i in range(m-1)]
+ans=max(place[0], n-place[-1])
 
-if not side:
-    max_side=0
-else: 
-    max_side=max(side)
-left=0
-right=n
+for i in range(m-1):
+    ans=max(ans, (place[i+1]-place[i]+1)//2)
+print(ans)
 
-while left <= right:
-    mid=(left+right)//2
-    
-    if mid >= place[0] and mid >= (n-place[-1]) and mid >= (max_side+1)//2:
-        answer=mid 
-        right = mid-1
-    else:
-        left=mid+1
-
-print(answer)
-    
