@@ -9,14 +9,15 @@ cnt=0
 
 while left < right:
     hap=nums[left]+nums[right]
-    mid=(left+right) // 2
+    
     if hap==m:
-        cnt+=1    
-    if hap < m:
+        cnt+=1
+        left+=1
+        right-=1    
+    
+    elif hap < m:
         left+=1
     else:
         right-=1
 
 print(cnt)
-        
-
