@@ -1,40 +1,35 @@
-# '''
-# 1. 몇시간 있었는지 구한다 
-#     1-1. records를 반복문으로 받아서 
-#         차 번호를 키로 두고 딕셔너리로 구한다. value를 리스트로 구성한다. 
-#         리스트 길이가 짝수면 빼면 되고 (여러번 반복되면?)
-#         리스트 길이가 홀수면 앞에 것 빼고, 뒤에 것을 23:59분에서 뺀다 
-#         [차량번호, 시간] 같이 저장 
-# 2. 시간에 따라 가격을 계산한다
-# 3. 차량 번호가 작은 자동차부터 return 
-# '''
 from collections import defaultdict
 import math
+def time_trans(time):
+    hh,mm=map(int, time.split(":"))
+    return hh*60+mm
+
 def solution(fees, records):
     answer = []
     
-
-    time=defaultdict(list)
+    def fee(time):
+        if time <= fees[0]:
+            money=fees[1]
+        else:
+            money=fees[1]+math.ceil((time-fees[0])/fees[2]) * fees[3]
+        return money
+    inout=defaultdict(list)
     for r in records:
-        t, num, _ = r.split()
-        h,m=map(int,t.split(':'))
-        cal_t=h*60+m
-        time[num].append(cal_t)
+        print(r)
+        time, num, _ = r.split(" ")
+        inout[num].append(time)
     
-    final=[]
-    for k in sorted(time.keys()):
-        v=time[k]
-        length=len(v)
-        if length % 2 == 0:
-            key_time=sum(v[1+i]-v[i] for i in range(0,length,2))
-        else: 
-            key_time=sum(v[1+i]-v[i] for i in range(0,length-1,2)) + (23*60+59)-v[-1]
+    for k in sorted(inout.keys()):
+        v=inout[k]
+        total_time=0   
+        
+        if len(v) % 2 != 0: 
+            v.append('23:59')            
+        
+        for i in range(0,len(v),2):
+            total_time+=(time_trans(v[i+1])-time_trans(v[i]))
+        final_fee=fee(total_time)
+                       
+        answer.append(final_fee)
             
-        if key_time > fees[0]:
-            money=fees[1]+math.ceil((key_time-fees[0])/fees[2])*fees[3]
-        else: money=fees[1]
-        final.append(money)
-    
-    
-    return final
-
+    return answer
