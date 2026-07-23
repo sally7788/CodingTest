@@ -1,34 +1,35 @@
-from collections import deque 
+from collections import deque
 def solution(maps):
-    
+    answer = []
+    h=len(maps)
+    w=len(maps[0])
+    visited=[[False]*w for _ in range(h)]
     dx=[1,-1,0,0]
     dy=[0,0,1,-1]
-    visited=[[False]*len(maps[0]) for _ in range(len(maps))]
     
-    def dfs(x,y):
-        queue=deque([(x,y)])
+    def bfs(x,y):
         total=int(maps[x][y])
-        visited[x][y]=True 
-        
-        while queue: 
-            x,y=queue.popleft()
-            for i in range(4):
-                nx=x+dx[i]
-                ny=y+dy[i]
-
-                if 0 <=nx < len(maps) and 0 <=ny < len(maps[0]):                    
-                    if maps[nx][ny] != 'X' and not visited[nx][ny]:
-                        visited[nx][ny]=True
-                        total+=int(maps[nx][ny])
-                        queue.append((nx,ny))       
-        return total
-    result=[]
-    
-    for i in range(len(maps)):
-        for j in range(len(maps[0])):
-            if maps[i][j] !='X' and not visited[i][j]:
-                result.append(dfs(i,j))
-    return sorted(result) if result else [-1]
-        
+        queue=deque([(x,y)])
+        while queue:  #한 덩어리를 탐색 
+            nx,ny=queue.popleft()
             
-    
+            for i in range(4):
+                cx=dx[i]+nx
+                cy=dy[i]+ny
+            
+                if cx < 0 or cx >= h or cy < 0 or cy >=w:
+                    continue 
+
+                if not visited[cx][cy] and maps[cx][cy] != "X":
+                    visited[cx][cy]=True
+                    total+=int(maps[cx][cy])
+                    queue.append((cx,cy))
+        return total
+       
+    for i in range(h):
+        for j in range(w):         
+            if not visited[i][j] and maps[i][j] != "X":
+                visited[i][j]= True             
+                answer.append(bfs(i,j))
+        
+    return sorted(answer) if answer else [-1]
